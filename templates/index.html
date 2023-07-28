@@ -5,48 +5,74 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <ul class="flash">
-            {% for message in messages %}
-                <li {% if 'error' in message %}class="error"{% elif 'success' in message %}class="success"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    {% endwith %}
-
     <div class="container">
         <h1>GreenLeaf Generator</h1>
-        <div class="content">
-            <div class="pane">
-                <h2>Generate GLID</h2>
-                <form action="/generate_glid" method="GET">
-                    <input type="submit" value="Generate GLID">
-                </form>
-                {% if generated_glid %}
-                    <h3>Generated GLID</h3>
-                    <p class="generated-glid">{{ generated_glid }}</p>
-                {% endif %}
-            </div>
-
-            <div class="pane">
-                <h2>Add GLID</h2>
-                <form action="/add_glid" method="POST">
-                    <input type="text" name="glid" pattern="[0-9a-fA-F]{4}" placeholder="Enter GLID to add" required>
-                    <input type="submit" value="Add GLID">
-                </form>
-            </div>
-
-            <div class="pane">
-                <h2>Delete GLID</h2>
-                <form action="/delete_glid" method="POST">
-                    <input type="text" name="glid" pattern="[0-9a-fA-F]{4}" placeholder="Enter GLID to delete" required>
-                    <input type="submit" value="Delete GLID">
-                </form>
-            </div>
-
-            <a href="/download_glids" download>Download GLID Excel</a>
+        <div class="button-line">
+            <button id="generate-btn" onclick="showGeneratePopup()">Generate GLID</button>
+            <button id="add-btn" onclick="showAddPopup()">Add GLID</button>
+            <button id="delete-btn" onclick="showDeletePopup()">Delete GLID</button>
+            <button id="download-btn" onclick="downloadCsv()">Download CSV</button>
         </div>
     </div>
+
+    <!-- Pop-up Overlay -->
+    <div id="overlay"></div>
+
+    <!-- Generate GLID Pop-up -->
+    <div id="generate-popup" class="popup">
+        <h2>Generate GLID</h2>
+        <form action="/generate_glid" method="GET">
+            <input type="submit" value="Generate">
+        </form>
+        </br>
+        <button onclick="closePopup('generate-popup')">Close</button>
+    </div>
+
+    <!-- Add GLID Pop-up -->
+    <div id="add-popup" class="popup">
+        <h2>Add GLID</h2>
+        <form action="/add_glid" method="POST">
+            <input type="text" name="glid" pattern="[0-9a-fA-F]{4}" placeholder="Enter GLID to add" required>
+            <input type="submit" value="Add">
+        </form>
+        </br>
+        <button onclick="closePopup('add-popup')">Close</button>
+    </div>
+
+    <!-- Delete GLID Pop-up -->
+    <div id="delete-popup" class="popup">
+        <h2>Delete GLID</h2>
+        <form action="/delete_glid" method="POST">
+            <input type="text" name="glid" pattern="[0-9a-fA-F]{4}" placeholder="Enter GLID to delete" required>
+            <input type="submit" value="Delete">
+        </form>
+        </br>
+        <button onclick="closePopup('delete-popup')">Close</button>
+    </div>
+
+    <script>
+        function showGeneratePopup() {
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('generate-popup').style.display = 'block';
+        }
+
+        function showAddPopup() {
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('add-popup').style.display = 'block';
+        }
+
+        function showDeletePopup() {
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('delete-popup').style.display = 'block';
+        }
+
+        function closePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+        }
+
+        function downloadCsv() {
+            window.location.href = "/download_glids";
+        }
+    </script>
 </body>
 </html>
