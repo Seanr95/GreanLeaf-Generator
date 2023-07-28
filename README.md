@@ -25,7 +25,7 @@ Before running the application, make sure you have the following installed:
 
 ```bash
 git clone https://github.com/Seanr95/greenleaf-generator.git
-
+```
 1. Change into the project directory:
 cd greenleaf-generator
 
