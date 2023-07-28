@@ -26,13 +26,20 @@ Before running the application, make sure you have the following installed:
 ```bash
 git clone https://github.com/Seanr95/greenleaf-generator.git
 ```
-1. Change into the project directory:
+
+2. Change into the project directory:
+```bash
 cd greenleaf-generator
+```
 
-2. Install the required dependencies:
+3. Install the required dependencies:
+```bash
 pip install -r requirements.txt
+```
 
-3. Run the Flask application:
+4. Run the Flask application:
+```bash
 python GreenLeafGenerator.py
+```
 
-4. Open your web browser and go to http://127.0.0.1:5000/ to access the GreenLeaf Generator.
+5. Open your web browser and go to http://127.0.0.1:5000/ to access the GreenLeaf Generator.
