@@ -1,0 +1,82 @@
+/* styles.css */
+
+.flash {
+    list-style: none;
+    padding: 10px;
+    background-color: #ffcccc;
+    border: 1px solid #ff0000;
+}
+
+body {
+    /* Set the background image using the url() function */
+    background-image: url("images/background.jpg");
+  
+    /* Adjust the background properties as needed */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 0 0; /*top left corner*/
+}
+  
+.container {
+    /* Create a white pane for the content and center it */
+    background-color: #fff;
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    /* Style the heading */
+    color: #333;
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  /* Style the buttons */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+button:hover {
+   background-color: #45a049;
+}
+
+/* Style the input field */
+input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Add some spacing between elements */
+.space {
+    margin-bottom: 10px;
+}
+
+.generate-button {
+    display: flex;
+    align-items: center;
+}
+
+.generate-button form {
+    margin-right: 10px; /* Adjust this value to control the space between the button and generated GLID */
+}
+
+.generated-glid {
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+}
