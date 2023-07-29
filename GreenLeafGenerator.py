@@ -3,9 +3,13 @@ from openpyxl import load_workbook
 from datetime import datetime
 import re
 import io
+import logging
 import secrets
 
 app = Flask(__name__, template_folder='templates', static_folder='templates')
+
+# Configure logging
+logging.basicConfig(filename='GreebLeafGenerator.log', level=logging.INFO,format='%(asctime)s [%(levelname)s]: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 @app.route('/')
 def index():
@@ -17,6 +21,8 @@ def generate_glid():
     glid = generate_unique_glid()
     # Save the GLID to the Excel file
     save_glid(glid)
+     # Add a log message for the generated GLID
+    logging.info(f'Generated and saved GLID: {glid}')
     return jsonify({'glid': glid})
 
 @app.route('/add_glid', methods=['POST'])
@@ -32,6 +38,11 @@ def add_glid():
     if not glid_exists(glid):
         # Save the GLID to the Excel file
         save_glid(glid)
+         # Add a log message for the Add GLID
+        logging.info(f'Added GLID was saved in CSV: {glid}')
+    else:
+         # Add a log message for the add GLID
+        logging.info(f'The following GLID aleady exist in the CSV: {glid}')
 
     return jsonify({'success': True})
 
@@ -45,19 +56,31 @@ def delete_glid_entry():
         return jsonify({'error': "Invalid GLID. Please enter a 4-digit hexadecimal value."})
 
     if not glid_exists(glid):
+         # Add a log message for the delete GLID
+        logging.info(f'The following GLID doesnt exist for delete: {glid}')
         return jsonify({'error': "GLID does not exist."})
 
     delete_glid(glid)
+     # Add a log message for the delete GLID
+    logging.info(f'successfully deleted GLID: {glid}')
     return jsonify({'success': True})
 
 @app.route('/download_glids')
 def download_glids():
     return send_file('glids.xlsx', as_attachment=True)
 
+@app.errorhandler(Exception)
+def handle_error(e):
+    # Log the error message
+    logging.error(f'An error occurred: {str(e)}', exc_info=True)
+    return jsonify({'error': 'An internal server error occurred.'}), 500
+
 def generate_unique_glid():
     glid = secrets.token_hex(2)  # Generate a random 4-digit hexadecimal
     while glid_exists(glid):  # Keep generating until a unique GLID is found
         glid = secrets.token_hex(2)
+    # Add a log message for the generated GLID
+    logging.info(f'Generated GLID: {glid}')
     return glid
 
 def glid_exists(glid):
@@ -73,6 +96,8 @@ def save_glid(glid):
     ws = wb.active
     ws.append([glid, '', '', datetime.now()])
     wb.save('glids.xlsx')
+    # Add a log message for the saved GLID
+    logging.info(f'The following GLID was saved in CSV: {glid}')
 
 def delete_glid(glid):
     wb = load_workbook('glids.xlsx')
@@ -82,6 +107,8 @@ def delete_glid(glid):
             ws.delete_rows(idx + 1)  # Adding 1 to the index to get the actual row number
             break
     wb.save('glids.xlsx')
+    # Add a log message for the Delete GLID
+    logging.info(f'Deleted GLID: {glid}')
 
 if __name__ == '__main__':
     # Running the app without debug mode
