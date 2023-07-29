@@ -40,3 +40,34 @@ werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on 
 2023-07-29 08:50:33 [INFO]: 127.0.0.1 - - [29/Jul/2023 08:50:33] "POST /delete_glid HTTP/1.1" 200 -
 2023-07-29 08:50:36 [INFO]: The following GLID doesnt exist for delete: 2222
 2023-07-29 08:50:36 [INFO]: 127.0.0.1 - - [29/Jul/2023 08:50:36] "POST /delete_glid HTTP/1.1" 200 -
+2023-07-29 09:04:10 [INFO]: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2023-07-29 09:04:10 [INFO]: [33mPress CTRL+C to quit[0m
+2023-07-29 09:04:10 [INFO]: 127.0.0.1 - - [29/Jul/2023 09:04:10] "GET / HTTP/1.1" 200 -
+2023-07-29 09:04:10 [INFO]: 127.0.0.1 - - [29/Jul/2023 09:04:10] "[36mGET /templates/styles.css HTTP/1.1[0m" 304 -
+2023-07-29 09:04:11 [INFO]: 127.0.0.1 - - [29/Jul/2023 09:04:11] "[36mGET /templates/images/background.jpg HTTP/1.1[0m" 304 -
+2023-07-29 09:04:11 [ERROR]: An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "C:\Users\SeanR\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\SeanR\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\flask\app.py", line 1458, in dispatch_request
+    self.raise_routing_exception(req)
+  File "C:\Users\SeanR\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\flask\app.py", line 1440, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+  File "C:\Users\SeanR\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\flask\ctx.py", line 353, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "C:\Users\SeanR\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\werkzeug\routing\map.py", line 655, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-07-29 09:04:11 [INFO]: 127.0.0.1 - - [29/Jul/2023 09:04:11] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2023-07-29 09:04:18 [INFO]: Generated GLID: 7d53
+2023-07-29 09:04:18 [INFO]: The following GLID was saved in CSV: 7d53
+2023-07-29 09:04:18 [INFO]: Generated and saved GLID: 7d53
+2023-07-29 09:04:18 [INFO]: 127.0.0.1 - - [29/Jul/2023 09:04:18] "GET /generate_glid HTTP/1.1" 200 -
+2023-07-29 09:04:22 [INFO]: Deleted GLID: 7d53
+2023-07-29 09:04:22 [INFO]: successfully deleted GLID: 7d53
+2023-07-29 09:04:22 [INFO]: 127.0.0.1 - - [29/Jul/2023 09:04:22] "POST /delete_glid HTTP/1.1" 200 -
+2023-07-29 09:04:23 [INFO]: The following GLID doesnt exist for delete: 7d53
+2023-07-29 09:04:23 [INFO]: 127.0.0.1 - - [29/Jul/2023 09:04:23] "POST /delete_glid HTTP/1.1" 200 -
+2023-07-29 09:04:25 [INFO]: The following GLID doesnt exist for delete: 7d53
+2023-07-29 09:04:25 [INFO]: 127.0.0.1 - - [29/Jul/2023 09:04:25] "POST /delete_glid HTTP/1.1" 200 -
