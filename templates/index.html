@@ -8,70 +8,130 @@
     <div class="container">
         <h1>GreenLeaf Generator</h1>
         <div class="button-line">
-            <button id="generate-btn" onclick="showGeneratePopup()">Generate GLID</button>
-            <button id="add-btn" onclick="showAddPopup()">Add GLID</button>
-            <button id="delete-btn" onclick="showDeletePopup()">Delete GLID</button>
-            <button id="download-btn" onclick="downloadCsv()">Download CSV</button>
+            <button onclick="showPopup('generate-popup')">Generate GLID</button>
+            <button onclick="showPopup('add-popup')">Add GLID</button>
+            <button onclick="showPopup('delete-popup')">Delete GLID</button>
+            <button onclick="downloadCsv()">Download CSV</button>
         </div>
     </div>
 
     <!-- Pop-up Overlay -->
-    <div id="overlay"></div>
+    <div id="overlay" onclick="closeAllPopups()"></div>
 
     <!-- Generate GLID Pop-up -->
     <div id="generate-popup" class="popup">
         <h2>Generate GLID</h2>
-        <form action="/generate_glid" method="GET">
-            <input type="submit" value="Generate">
-        </form>
+        <div id="generate-result" class="popup-message" style="display: none;"></div>
         </br>
-        <button onclick="closePopup('generate-popup')">Close</button>
+        <button onclick="generateGLID()">Generate</button>
+        <button onclick="closeAllPopups()" style="display: block;">Close</button>
     </div>
 
     <!-- Add GLID Pop-up -->
     <div id="add-popup" class="popup">
         <h2>Add GLID</h2>
-        <form action="/add_glid" method="POST">
-            <input type="text" name="glid" pattern="[0-9a-fA-F]{4}" placeholder="Enter GLID to add" required>
-            <input type="submit" value="Add">
-        </form>
-        </br>
-        <button onclick="closePopup('add-popup')">Close</button>
+        <div class="popup-buttons">
+            <input type="text" id="add-glid-input" pattern="[0-9a-fA-F]{4}" placeholder="Enter GLID to add" required>
+            <div id="add-message" class="popup-message" style="display: none;"></div>
+            <button onclick="addGLID()">Add</button>
+            <button onclick="closeAllPopups()" style="display: block;">Close</button>
+        </div>
     </div>
 
     <!-- Delete GLID Pop-up -->
     <div id="delete-popup" class="popup">
         <h2>Delete GLID</h2>
-        <form action="/delete_glid" method="POST">
-            <input type="text" name="glid" pattern="[0-9a-fA-F]{4}" placeholder="Enter GLID to delete" required>
-            <input type="submit" value="Delete">
-        </form>
-        </br>
-        <button onclick="closePopup('delete-popup')">Close</button>
+        <div class="popup-buttons">
+            <input type="text" id="delete-glid-input" pattern="[0-9a-fA-F]{4}" placeholder="Enter GLID to delete" required>
+            <div id="delete-message" class="popup-message" style="display: none;"></div>
+            <button onclick="deleteGLID()">Delete</button>
+            <button onclick="closeAllPopups()" style="display: block;">Close</button>
+        </div>
     </div>
 
     <script>
-        function showGeneratePopup() {
+        function showPopup(popupId) {
             document.getElementById('overlay').style.display = 'block';
-            document.getElementById('generate-popup').style.display = 'block';
+            document.getElementById(popupId).style.display = 'block';
         }
 
-        function showAddPopup() {
-            document.getElementById('overlay').style.display = 'block';
-            document.getElementById('add-popup').style.display = 'block';
-        }
-
-        function showDeletePopup() {
-            document.getElementById('overlay').style.display = 'block';
-            document.getElementById('delete-popup').style.display = 'block';
-        }
-
-        function closePopup(popupId) {
+        function hidePopup(popupId) {
+            document.getElementById('overlay').style.display = 'none';
             document.getElementById(popupId).style.display = 'none';
+        }
+
+        function closeAllPopups() {
+            const popups = document.querySelectorAll('.popup');
+            const messageElements = document.querySelectorAll('.popup-message');
+            popups.forEach(popup => (popup.style.display = 'none'));
+            messageElements.forEach(message => {
+                message.style.display = 'none';
+                message.textContent = '';
+            });
+            document.getElementById('overlay').style.display = 'none';
+        }
+        function clearGenerateMessage() {
+        document.getElementById('generate-result').textContent = '';
         }
 
         function downloadCsv() {
             window.location.href = "/download_glids";
+        }
+
+        async function generateGLID() {
+            const response = await fetch('/generate_glid', { method: 'GET' });
+            const data = await response.json();
+            const generateResult = document.getElementById('generate-result');
+            generateResult.textContent = `Generated GLID: ${data.glid}`;
+            generateResult.style.display = 'block';
+        }
+
+        async function addGLID() {
+            const glidInput = document.getElementById('add-glid-input');
+            const glid = glidInput.value;
+
+            if (!glid.match(/^[0-9a-fA-F]{4}$/)) {
+                alert("Invalid GLID. Please enter a 4-digit hexadecimal value.");
+                return;
+            }
+
+            const response = await fetch('/add_glid', {
+                method: 'POST',
+                body: JSON.stringify({ glid }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            const data = await response.json();
+            const addMessage = document.getElementById('add-message');
+            addMessage.textContent = data.success ? 'GLID added successfully!' : data.error;
+            addMessage.style.color = data.success ? 'green' : 'red';
+            addMessage.style.display = 'block';
+
+            glidInput.value = '';
+        }
+
+        async function deleteGLID() {
+            const glidInput = document.getElementById('delete-glid-input');
+            const glid = glidInput.value;
+
+            if (!glid.match(/^[0-9a-fA-F]{4}$/)) {
+                alert("Invalid GLID. Please enter a 4-digit hexadecimal value.");
+                return;
+            }
+
+            const response = await fetch('/delete_glid', {
+                method: 'POST',
+                body: JSON.stringify({ glid }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            const data = await response.json();
+            const deleteMessage = document.getElementById('delete-message');
+            deleteMessage.textContent = data.success ? 'GLID deleted successfully!' : data.error;
+            deleteMessage.style.color = data.success ? 'green' : 'red';
+            deleteMessage.style.display = 'block';
+
+            glidInput.value = '';
         }
     </script>
 </body>

@@ -3,7 +3,6 @@
 body {
     /* Set the background image using the url() function */
     background-image: url("images/background.jpg");
-  
     /* Adjust the background properties as needed */
     background-size: cover;
     background-repeat: no-repeat;
@@ -48,6 +47,7 @@ button {
 button:hover {
     background-color: #45a049;
 }
+
 .popup {
     /* Updated size of pop-up panes */
     width: 320px;
@@ -74,6 +74,12 @@ button:hover {
     box-sizing: border-box; /* Including padding in the width calculation */
 }
 
+.popup .button-line {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
 .popup button {
     background-color: #4CAF50;
     color: white;
@@ -82,6 +88,7 @@ button:hover {
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    margin-left: 10px;
 }
 
 .popup button:hover {
